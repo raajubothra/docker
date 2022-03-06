@@ -62,15 +62,12 @@ pipeline {
 
       }
 
-      stage('verifying the deployment') {
-
-          steps {
-
-              sh 'curl http://$devnode:8100' || exit 1'
-
-          }
-
-      }
+     stage('Verifying The Deployment') {
+            steps {
+                sh 'curl http://$devnode:8100 || exit 1'
+            }
+        }
 
   }
 
+  
