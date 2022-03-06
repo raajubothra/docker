@@ -9,31 +9,20 @@ pipeline {
       dockerImage = ''
   }
   agent any
-  stages {
-      stage('Cloning our Git') {
-
-          steps {
-
-              git 'https://github.com/raajubothra/docker.git'
-
-          }
-
-      }
-
-      stage('Building our image') {
-
-          steps {
-
-              script {
-
-                  dockerImage = docker.build registry + ":v$BUILD_NUMBER"
-
-              }
-
-          }
-
-      }
-
+    stages {
+        stage('Building Dev Docker Branch') {
+            when {
+                expression {
+                    return env.BRANCH_NAME != 'master'
+                }
+            }
+            steps {
+                script {
+                    dockerImage = docker.build registry + ":v$BUILD_NUMBER"
+                }
+            }
+        }
+      
       stage('Deploy our image') {
 
           steps {
